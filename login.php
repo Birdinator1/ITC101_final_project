@@ -1,1 +1,1 @@
-/* here is the PHP file for the login logic. */
+// here is the PHP file for the login logic.
