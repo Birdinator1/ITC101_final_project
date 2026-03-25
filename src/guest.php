@@ -2,8 +2,8 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["logged_in"]) or $_SESSION["logged_in"] !== true) {
-    header("Location: ./views/login.php");
+if (!isset($_SESSION["auth"]) or $_SESSION["auth"] !== true) {
+    header("Location: ./login.php");
     exit;
 }
 ?>
@@ -18,4 +18,3 @@ if (!isset($_SESSION["logged_in"]) or $_SESSION["logged_in"] !== true) {
     <p>Welcome to this soopa secure website! We don't have anything for guests here, sorry. Enjoy this picture, though!</p>
     <!-- TO-DO: Link silly picture here (very important) -->
 </body>
-</html>
