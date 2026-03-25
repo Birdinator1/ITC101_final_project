@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["logged_in"]) or $_SESSION["logged_in"] !== true) {
+if (!isset($_SESSION["auth"]) or $_SESSION["auth"] !== true) {
     header("Location: ./views/login.php");
     exit;
 }
