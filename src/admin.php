@@ -7,3 +7,5 @@ if (!isset($_SESSION["logged_in"]) or $_SESSION["logged_in"] !== true) {
     exit;
 }
 ?>
+
+<p>byuctf{s00pa_s3cr3t_fl4g_placeholder}</p>
