@@ -15,3 +15,4 @@ if (isset($_SESSION["error"])) {
     <title>Login Page</title>
 </head>
 <body></body>
+</html>

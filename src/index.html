@@ -1,13 +1,3 @@
-<!-- This one will give them a sad message saying that there's nothing for guests because they're lame and their privelege is weak. -->
-<?php
-session_start();
-
-if (!isset($_SESSION["logged_in"]) or $_SESSION["logged_in"] !== true) {
-    header("Location: ./views/login.php");
-    exit;
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
