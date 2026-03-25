@@ -1,4 +1,3 @@
-<!-- here is the PHP file for the login logic.  -->
 <?php
 session_start();
 
@@ -16,7 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($username === $guest_user && $password === $guest_pass) {
         setcookie('user', base64_encode('user=guest'), 0, '/');
         $_SESSION['auth'] = true;
-        header('Location: guest.php');
+
+        // Route based on the cookie value (intentionally vulnerable — base64 is not signed)
+        $cookie = base64_decode($_COOKIE['user'] ?? base64_encode('user=guest'));
+        if ($cookie === 'user=admin') {
+            header('Location: views/admin.php');
+        } else {
+            header('Location: views/guest.php');
+        }
         exit;
     } else {
         $error = 'Invalid username or password.';
@@ -89,4 +95,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .alert .icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
   </style>
 </head>
-<body></body>
+<body>
+  <div class="container">
+    <div class="wordmark">
+      <span>VAULT</span>
+      <p>Secure Access Portal</p>
+    </div>
+    <div class="card">
+      <h1>Welcome back.</h1>
+      <p class="subtitle">Sign in to continue.</p>
+
+      <?php if ($error !== ''): ?>
+        <?php $isTaunt = str_contains($error, "admin"); ?>
+        <div class="alert <?= $isTaunt ? 'taunt' : 'error' ?>">
+          <span class="icon"><?= $isTaunt ? '🔒' : '⚠' ?></span>
+          <span><?= htmlspecialchars($error) ?></span>
+        </div>
+      <?php endif; ?>
+
+      <form method="POST" action="">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter username" autocomplete="username"/>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input type="password" id="password" name="password" placeholder="Enter password" autocomplete="current-password"/>
+            <button type="button" class="toggle-pw" onclick="togglePw()" aria-label="Toggle password visibility">
+              <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <label class="remember">
+            <input type="checkbox" name="remember"/> Remember me
+          </label>
+          <a href="#" class="forgot">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn-login">Sign In</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    function togglePw() {
+      const input = document.getElementById('password');
+      const icon = document.getElementById('eye-icon');
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      icon.innerHTML = isHidden
+        ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>'
+        : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+    }
+  </script>
+</body>
+</html>
