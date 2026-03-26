@@ -50,8 +50,10 @@ if ($cookie === 'user=admin') {
     <div class="card">
         <span class="emoji">🚪</span>
         <h1>You're a Guest.</h1>
-        <p>Welcome to this soopa secure website! We don't have anything for guests here, sorry. Enjoy this picture, though!</p>
-        <!-- TO-DO: Link silly picture here (very important) -->
+        <p>Welcome to this soopa secure website! We don't have anything for guests here, sorry. I wrote you a Haiku tho!</p>
+        <p>You are just a guest</p>
+        <p>If only you were greater</p>
+        <p>They call me "guest hater"</p>
     </div>
 </body>
 </html>
