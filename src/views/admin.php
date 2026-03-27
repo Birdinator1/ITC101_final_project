@@ -1,15 +1,7 @@
 <?php
-session_start();
-
-if (!isset($_SESSION["auth"]) || $_SESSION["auth"] !== true) {
-    header("Location: ../index.php");
-    exit;
-}
-
-// Verify the cookie says admin — this is the intentionally vulnerable check
 $cookie = base64_decode($_COOKIE['user'] ?? '');
 if ($cookie !== 'user=admin') {
-    header("Location: guest.php");
+    header("Location: ../index.php");
     exit;
 }
 ?>

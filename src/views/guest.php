@@ -1,12 +1,4 @@
 <?php
-session_start();
-
-if (!isset($_SESSION["auth"]) || $_SESSION["auth"] !== true) {
-    header("Location: ../index.php");
-    exit;
-}
-
-// Also enforce that this is actually a guest, not an admin who navigated here directly
 $cookie = base64_decode($_COOKIE['user'] ?? '');
 if ($cookie === 'user=admin') {
     header("Location: admin.php");

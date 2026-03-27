@@ -7,22 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    $guest_user = 'guest';
-    $guest_pass = 'guest';
-
     if (strtolower($username) === 'admin' || strtolower($password) === 'admin') {
         $error = "Nice try. The admin doesn't take visitors.";
-    } elseif ($username === $guest_user && $password === $guest_pass) {
+    } elseif ($username === 'guest' && $password === 'guest') {
         setcookie('user', base64_encode('user=guest'), 0, '/');
-        $_SESSION['auth'] = true;
-
-        // Route based on the cookie value (intentionally vulnerable — base64 is not signed)
-        $cookie = base64_decode($_COOKIE['user'] ?? base64_encode('user=guest'));
-        if ($cookie === 'user=admin') {
-            header('Location: views/admin.php');
-        } else {
-            header('Location: views/guest.php');
-        }
+        header('Location: views/guest.php');
         exit;
     } else {
         $error = 'Invalid username or password.';
